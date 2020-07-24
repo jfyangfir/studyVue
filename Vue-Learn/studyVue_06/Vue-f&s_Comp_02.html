@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <h3>我是父组件: {{msg}}</h3>
+        <!-- funct是自定义name -->
+        <com1 v-on:funct="show"></com1>
+    </div>
+
+    <template id="temp1">
+        <div>
+            <h3 >我是子组件</h3>
+            <input type="button" value="调用父组件的方法" @click="myclick">
+        </div>
+
+    </template>
+
+    <script>
+        var com1 = {
+            template: "#temp1",
+            data(){
+               return {sonmsg:{name:"龙飞",age:"1000"}} 
+            },
+            methods: {
+               myclick(){
+                   // 可以来实现方法的调用及传值
+                   this.$emit('funct',this.sonmsg)
+               } 
+            }
+        }
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                msg:null
+            },
+            methods: {
+                // 将获取的参数赋值给Vue实例中的data中的msg
+                show(data){
+                    this.msg = data
+                }
+            },
+            components: {
+                com1
+            }
+        })
+    </script>
+</body>
+</html>

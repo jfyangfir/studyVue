@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--v-bind与class属性绑定
+插值表达式不能用在属性的值中,我们可以传给 v-bind:class (可以简写为:class)一个对象，以动态地切换 class-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello vue</title>
+    <style type="text/css">
+        #box{
+            width: 100px;
+            height: 100px;
+            color: cyan;
+        }
+        .red{
+            background-color: red;
+        }
+        .blue{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+<!--    class属性-->
+    <button @click="isRed=!isRed">点我换颜色</button>
+    <div id="box":class="{red:isRed,blue:!isRed}">
+        来看我颜色
+    </div>
+    <h1>
+        我的生日是:<span v-text="myBirth"></span>
+    </h1>
+</div>
+<script src="../Util/vue/dist/vue.js"></script>
+<script>
+    const app=new Vue({
+        el:"#app",
+        data:{
+            isRed:true,
+            birthday:1235032504930,
+        },
+        computed:{//计算属性
+            // 计算属性本质就是方法，但是一定要返回数据,然后页面渲染时，可以把这个方法当成一个变量来使用
+            myBirth(){
+                console.log("hi");
+                const day=new Date(this.birthday);
+                return day.getFullYear()+"年"+day.getMonth()+"月"+day.getDay()+"日";//需要返回
+            }
+        }
+    });
+</script>
+</body>
+</html>

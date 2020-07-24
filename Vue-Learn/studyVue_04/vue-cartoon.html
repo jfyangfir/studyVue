@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="">
+<!-- 
+v-enter	        这是一个时间点,是进入之前，元素的起始状态，此时还没有开始进入
+v-enter-active	入场动画的时间段
+v-enter-to	    入场结束的时间点
+v-leave	        离场动画开始的时间点
+v-leave-active	离场动画的时间段
+v-leave-to	    这是一个时间点,是动画离开之后，离开的终止状态，此时，元素动画已经结束了 -->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>hello vue</title>
+        <script src="../Util/vue/dist/vue.js"></script>
+
+    <style>
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+            /* translate(x,y)水平方向和垂直方向同时移动（也就是X轴和Y轴同时移动）；
+            translateX(x)仅水平方向移动（X轴移动）；
+            translateY(Y)仅垂直方向移动（Y轴移动） */
+            transform: translateX(50px)
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            /* 一秒钟完成所有过度效果，缓慢的 */
+            transition: all 1s ease
+        }
+        
+        .ball{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+
+    </head>
+    <body>
+        <div id="app">
+            <input type="button" value="开关" @click="flag=!flag">
+            <!-- 对于没有定义的transition名称的类名默认前缀是 v
+            <transition name="v">
+
+            </transition> -->
+            <!-- <transition>
+            <h3 v-if="flag">这是一个h3</h3>
+            </transition> -->
+
+
+            <!-- 钩子函数
+                钩子函数是Windows消息处理机制的一部分，通过设置“钩子”，应用程序可以在系统级对所有消息、事件进行过滤，访问在正常情况下无法访问的消息。
+                v-on:before-enter=“beforeEnter”	         入场动画之前执行beforeEnter方法
+                v-on:enter=“enter”	                     入场过程中执行的方法
+                v-on:after-enter=“afterEnter”	         入场后执行的方法
+                v-on:enter-cancelled=“enterCancelled”	 入场动画取消的时候执行方法
+                v-on:before-leave=“beforeLeave”	         离场动画之前执行beforeLeave方法
+                v-on:leave=“leave”	                     离场动画过程中执行的方法
+                v-on:after-leave=“afterLeave”	         离场结束后执行的方法
+                v-on:leave-cancelled=“leaveCancelled”	 离场动画取消时执行的方法 -->
+
+            <transition 
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter">
+
+                <div class="ball" style="margin: 0 auto;" v-show="flag"></div>
+            </transition>
+            
+        </div>
+        
+        <script>
+            var vm=new Vue({
+                el:"#app",
+                data:{
+                    flag:true
+                },
+                methods: {
+                    beforeEnter(el){
+                        //初始状态 设置位置
+                        el.style.tansform="translate(0,0)"
+                    },
+                    enter(el,done){
+                        //入场后的位置
+                        el.style.tansform="translate(150px,450px)"
+                        //添加动画效果
+                        el.style.transition="all 1s ease"
+
+                        //当只用js过渡的时候，在enter和leave中必须使用done进行回调
+                        //否则他们将被同步调用，过渡会立即完成
+                        //执行done方法
+                        done()
+                    },
+                    afterEnter(el){
+                        //改变状态,让入场完的ball消失
+                        this.flag=!this.flag
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>

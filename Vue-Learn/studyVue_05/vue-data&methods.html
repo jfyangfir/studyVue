@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello vue</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+</head>
+<!-- 组件和Vue实例的区别:
+Vue实例是在页面加载的时候被实例化的，一个页面就一个，而组件是可以复用的 -->
+<body>
+    <div id="app">
+        <mycom></mycom>
+    </div>
+    <template id="com">
+        <div>
+            <input type="button" value="调用组件中的show方法" @click="show">
+            <!-- 通过插值表达式获取数据 -->
+            <h3>这是一个自定义组件 {{id}} -- {{name}}</h3>
+        </div>
+    </template>
+    <script>
+        Vue.component("mycom",{//全局组件
+            template:"#com",
+            // data属性必须返回对象
+            //每次复用的时候都给返回一个新的实例对象，让组件 实例之间数据独立
+            data:function(){
+                return {id:1,name:'飞鱼'};//定义data返回一个对象
+            },
+            methods:{
+                show(){
+                    console.log('组件中的show()方法被调用了...')
+                }
+            }
+        })
+        var vm=new Vue({
+            el:"#app",
+            data:{              
+            },
+            methods:{
+            }
+        })
+    </script>
+</body>
+</html>

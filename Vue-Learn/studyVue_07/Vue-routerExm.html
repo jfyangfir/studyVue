@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+    <script src="../Util/vue-router/dist/vue-router.js"></script>
+    <style>
+        html,
+        body{
+            margin:0;
+            padding: 0;
+        }
+
+        .top{
+            background-color: orange;
+            height:80px;
+        }
+
+        h1{
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .container{
+            /* Flex是Flexible Box的缩写，意为"弹性布局"，用来为盒状模型提供最大的灵活性。
+            设为Flex布局以后，子元素的float、clear和vertical-align属性将失效 */
+            display: flex;
+            height: 600px;
+        }
+
+        .left{
+            background-color: lightgreen;
+            flex:2;
+        }
+
+        .content{
+            background-color: lightpink;
+            flex: 8;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <router-view name="topbox"></router-view>
+        <!-- "container"这是一个容器大概是占屏幕宽度的80%,然后居中对齐 -->
+        <div class="container">
+            <router-view name="left"></router-view>
+            <router-view name="content"></router-view>
+        </div>
+    </div>
+    <script>
+        var topbox={
+            template:"<h1 class='top'>头部局部</h1>"
+        }
+
+        var left={
+            template:"<h1 class='left'>左侧菜单栏</h1>"
+        }
+
+        var content={
+            template:"<h1 class='content'>内容主体</h1>"
+        }
+
+        var routerObj=new VueRouter({
+            routes:[
+                { path : "/" , components:{
+                    "topbox":topbox,
+                    "left":left,
+                    "content":content
+                }}
+            ]
+        })
+        var vm=new Vue({
+            el:"#app",
+            data:{},
+            methods: {},
+            router:routerObj
+        })
+    </script>
+</body>
+</html>

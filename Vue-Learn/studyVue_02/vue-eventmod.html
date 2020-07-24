@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello vue</title>
+    <style>
+        .inner{
+            height: 150px;
+            background-color: gold;
+        }
+        .outer{
+            padding: 40px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="inner" @click="divHandler">
+        <button @click.stop="btnHandler">点击</button>
+    </div>
+<!--    .prevent  阻止默认行为
+        .capture  实现捕获触发事件的机制,即是给元素添加一个监听器，
+                  当元素发生冒泡时，先触发带有该修饰符的元素,
+                  若有多个该修饰符，则由外而内触发,
+                  就是谁有该事件修饰符，就先触发谁
+        .stop     用来防止冒泡
+        .self     实现只有点击当前元素时候，才会触发事件处理函数
+                  只会阻止自己身上冒泡行为的触发，并不会真正阻止冒泡的行为
+        .once     只触发一次事件处理函数-->
+    <a href="http://www.baidu.com" @click.prevent.once="linkClick">有问题去百度</a>
+</div>
+<script src="../Util/vue/dist/vue.js"></script>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+
+        },
+        methods:{
+            divHandler(){
+                console.log('这是触发了 inner div 的点击事件')
+            },
+            btnHandler(){
+                console.log('这是触发了 btn 按钮的点击事件')
+            },
+            linkClick(){
+                alert('触发了链接点击事件')
+                console.log('触发了链接的点击事件')
+            }
+        }
+    })
+</script>
+</body>
+</html>

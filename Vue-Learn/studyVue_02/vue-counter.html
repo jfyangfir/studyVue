@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counter</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="n1">
+<!--    <select> 元素可创建单选或多选菜单-->
+<!--    <option> 元素定义下拉列表中的一个选项（一个条目）-->
+    <select v-model="opt">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" v-model="n2">
+    <button @click="calc">=</button>
+    <input type="text" v-model="result">
+</div>
+<script src="../Util/vue/dist/vue.js"></script>
+<script>
+    var vm=new Vue({
+        el:"#app",
+        data:{
+            n1:0,
+            n2:0,
+            result:0,
+            opt:'+'
+        },
+        methods:{
+            calc(){
+                var codeStr='parseInt(this.n1)'+this.opt+"parseInt(this.n2)"
+                // eval()函数可计算某个字符串，并执行其中的的JS代码
+                this.result=eval(codeStr)
+            }
+        }
+    })
+</script>
+</body>
+</html>

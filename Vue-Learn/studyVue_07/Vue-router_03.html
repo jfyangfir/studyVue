@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>hello vue</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+    <script src="../Util/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>客户中心</h1>
+        <!-- router-link 默认渲染为一个a标签 -->
+        <router-link to="/login">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+        <router-view></router-view>
+    </div>
+
+    <template id="lc">
+        <div>
+            <h2>登录模块</h2>
+            <router-link to="/login/newc">新用户</router-link>
+            <router-link to="/login/oldc">老用户</router-link>
+            <router-view></router-view>
+        </div>
+    </template>
+    <script>
+
+        var login={
+            template:"#lc"
+        }
+
+        var register={
+            template:"<h3>注册模块</h3>"
+        }
+
+        var newc={
+            template:"<h2>新用户登录</h2>"
+        }
+
+        var oldc={
+            template:"<h2>老用户登录</h2>"
+        }
+
+        var routerObj=new VueRouter({
+            routes:[
+                {path:"/login",
+                component:login,
+                // 通过children配置的path中的路由地址不能加 / 开头
+                children:[
+                    {path:"newc",component:newc},
+                    {path:"oldc",component:oldc}
+                ]},
+                {path:"/register",component:register}
+            ]
+        })
+        var vm=new Vue({
+            el:"#app",
+            data:{
+            },
+            methods: {
+            },
+            router:routerObj
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+    <style>
+        li{
+        border: 1px dashed red;
+        margin-top: 5px;
+        line-height: 40px;
+        /* 设置元素左内边距（空白） */
+        padding-left: 10px;  
+        }
+        /* 鼠标滑过的动画 */
+        li:hover{
+            background-color: aquamarine;
+            transition: all 0.8s ease;
+        }
+        
+        /* 动画初始和结束的时候 */
+        .v-enter,
+        .v-leave-to{
+            /* 设置 div 元素的不透明级别 */
+            opacity: 0;
+            transform:translateY(80px);
+        }
+
+        /* 入场和离场中 */
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.8s ease;
+        }
+
+        /* .v-move和 .v-leave-active 配合使用，能够实现列表后续的元素渐渐飘上来的效果 */
+        .v-move{
+            transition: all 0.6 ease;
+        }
+        .v-leave-active{
+            position: absolute;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <label>
+                Id:
+                <input type="text" v-model="id">
+            </label>
+            <label>
+                Name:
+                <input type="text" v-model="name">
+            </label>
+            <input type="button" value="添加" @click="add">
+        </div>
+        <ul>
+            <!-- 在 v-for 中循环遍历的多个 li 标签中,使用 transition-group 标签来包裹 -->
+            <transition-group>
+                <li v-for="(item,i) in list" :key="item.id" @click="del(i)">
+                    {{item.id}}---{{item.name}}
+                </li>
+            </transition-group>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                id:'',
+                name:'',
+                list:[
+                    {id:1,name:"java"},
+                    {id:2,name:"Vue"},
+                    {id:3,name:"Php"},
+                    {id:4,name:"C#"}
+                ]
+            },
+            methods: {
+                add(){
+                    this.list.push({id:this.id,name:this.name})
+                    this.id=this.name=''
+                },
+                del(i){
+                    this.list.splice(i,1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

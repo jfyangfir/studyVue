@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello vue</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="num">
+    <h1>
+        num:<span v-text="num"></span><br>
+        名字:<span v-text="person.name"></span><br>
+        年龄:<span v-text="person.age"></span>
+    </h1>
+</div>
+<script src="../Util/vue/dist/vue.js"></script>
+<script>
+    const app=new Vue({
+        el:"#app",
+        data:{
+            num:1,
+            person: {
+                name:"xi",
+                age:33
+            }
+        },
+        // watch可以让我们监控一个值的变化,从而做出相应的反应
+        watch:{
+            num(val,oldVal){
+                console.log(val,oldVal);
+            },
+            person:{//监听person对象的变化
+                deep:true,
+                handler(obj){
+                    console.log(obj.age)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

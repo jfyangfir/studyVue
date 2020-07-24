@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <script src="../Util/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="../Util/bootstrap-3.3.7-dist/css/bootstrap.css">
+    </head>
+    <body>
+        <div id="app">
+            <P>{{msg}}</P>
+            <p>{{msg | msgFormat('·格林') | test | partFilter}}</p>
+        </div>  
+    </body>
+    <script>
+        //创建一个过滤器(全局过滤器)
+        Vue.filter("msgFormat",function(msg,msg1){
+            return msg.replace(/哈登/g,"德雷蒙德"+msg1)
+        })
+        //再创建一个过滤器(全局过滤器)
+        Vue.filter("test",function(msg){
+            return msg+",请持续关注......"
+        })
+        var vm=new Vue({
+            el:"#app",
+            data:{
+                msg:"今日詹姆斯飞身骑扣哈登,敬请期待明日阿泰铁肘抚慰哈登"
+            },
+            methods: {
+            },
+            filters:{
+                //局部过滤器
+                partFilter:function(msg){
+                    return msg+"（记得点赞双击哦）"
+                }
+            }
+        })
+    </script>
+</html>

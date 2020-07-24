@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../Util/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="../Util/bootstrap-3.3.7-dist/css/bootstrap.css" />
+</head>
+<body>
+    <div id="app">
+
+        <div class="panel panel-primary">
+              <div class="panel-heading">
+                    <h3 class="panel-title">品牌管理</h3>
+              </div>
+              <div class="panel-body form-inline">
+                    <!-- <label> 标签为 input 元素定义标注（标记） -->
+                    <label>
+                        Id:
+                        <input type="text" class="form-control" v-model="id">
+                    </label>
+
+                    <label>
+                        Name:
+                        <input type="text" class="form-control" v-model="name">
+                    </label>
+
+                    <input type="button" value="添加" class="btn btn-primary" @click='add'>
+                    <label>
+                        搜索名称关键字：
+                        <input type="text" class="form-control" v-model="keyword">
+                    </label>
+                </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <!--<thead> 标签定义表格的表头。该标签用于组合 HTML 表格的表头内容-->
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>cTime</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <!--<tbody> 标签表格主体（正文）。该标签用于组合 HTML 表格的主体内容-->
+            <tbody>
+                <!--<tr> 标签定义 HTML 表格中的行-->
+                <tr v-for="item in list" :key="item.id">
+                    <!--<td> 标签定义 HTML 表格中的标准单元格-->
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <!--<a>标签定义超链接，用于从一张页面链接到另一张页面;元素最重要的属性是 href 属性，它指示链接的目标-->
+                    <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+                </tr>
+                <td>
+                <tr v-for="item in search(keyword)" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                id:'',
+                name:'',
+                keyword:'',
+                list: [
+                    { id: 1, name: '奔驰', ctime: new Date() },
+                    { id: 2, name: '宝马', ctime: new Date() }
+                ]
+            },
+            methods: {
+                add(){
+                  //添加记录到list中
+                  this.list.push({id:this.id,name:this.name,ctime:new Date()})  
+                  //将输入框置空
+                  this.id=this.name=''
+                },
+                del(id){
+
+                    //1.some方法依次循环数组找到指定删除数据再进行删除
+                    //some方法循环数组，返回true可以终止循环
+                    // this.list.some((item,i)=>{
+                    //     if(item.id==id){
+                    //         //移除记录i 移除一条记录
+                    //         this.list.splice(i,1);
+                    //         //返回true 终止循环
+                    //         return true;
+                    //     }
+                    // })
+
+                    //2.findIndex方法获取要删除记录的index再删除指定数据
+                    var index=this.list.findIndex(item=>{
+                        if(item.id==id){
+                            return true
+                        }
+                    })
+                    this.list.splice(index,1);
+
+                },
+                search(keywords){
+
+                    //保存新的数组
+                    // var newList=[]
+                    // this.list.forEach(item=>{
+                    // //判断循环的记录是否包含查询的关键字
+                    // if(item.name.indexOf(keywords)!=-1){
+                    //     //将循环的记录添加到新的数组中
+                    //     newList.push(item)
+                    // }
+                    // })
+                    // //返回数组信息
+                    // return newList
+
+                    //filter 过滤 返回满足条件的数组
+                    return this.list.filter(item=>{
+                        //includes 是否包含
+                        if(item.name.includes(keywords)){
+                            return item
+                        }
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

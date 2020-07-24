@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello vue</title>
+</head>
+<body>
+<div id="app">
+<!--    双向绑定：通过v-model与num进行绑定,同时通过{{num}}在页面输出-->
+<!--    @click是v-on:click的缩写-->
+    <input type="text" v-model="num"><button @click="num++">+</button>
+    <h1>
+<!--        {{name}}很调皮  <br>-->
+<!--        v-cloak指令可以解决插值闪烁的问题-->
+<!--        有<span v-cloak>{{num}}</span>位粉丝-->
+
+<!--        v-text：将数据输出到元素内部，如果输出的数据有HTML代码，会作为普通文本输出-->
+<!--        v-html：将数据输出到元素内部，如果输出的数据有HTML代码，会被渲染-->
+<!--        v-text只渲染标签，不能解析html代码，v-html和v-text都是单向绑定-->
+        <span v-text="name"></span>很调皮<br>
+        有<span v-html="num"></span>位粉丝
+    </h1>
+<!--    @click帮点了方法handleClick-->
+    <button @click="handleClick">快来点我</button>
+</div>
+<script src="../Util/vue/dist/vue.js"></script>
+
+<script>
+    // const和let的作用域一致都是块级作用域，const用来声名常量，其他情况下一律使用let
+    const app = new Vue({
+        el: "#app",
+        data:{
+            name: "灵儿",
+            num:999
+        },
+        methods:{
+            handleClick(){
+                console.log("hello vue!")
+            }
+        },
+        //钩子函数
+        created() {
+            setTimeout(()=>this.name="小灵儿",5000)//this指向app
+        }
+    });
+</script>
+
+</body>
+</html>

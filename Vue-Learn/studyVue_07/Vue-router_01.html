@@ -1,0 +1,88 @@
+<!-- 
+1.后端路由：对于普通的网站，所有的超链接都是URL地址，所有的URL地址都对应服务器上对应的资源；
+2.前端路由：对于单页面应用程序来说，主要通过URL中的hash(#号)来实现不同页面之间的切换，
+同时，hash有一个特点：HTTP请求中不会包含hash相关的内容；所以，单页面程序中的页面跳转主要用hash实现；
+在单页面应用程序中，这种通过hash改变来切换页面的方式，称作前端路由（区别于后端路由） -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+    <script src="../Util/vue-router/dist/vue-router.js"></script>
+    <style>
+
+        .router-link-active,
+        .myclass{
+            background-color: burlywood;
+            font-size: 30px;
+        }
+
+        .v-enter,
+        .v-leave-to{
+            /* 在0时会完全看不见 0-1*/
+            opacity:0;
+            transform: translateX(140px);
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <a href="#/login">登录</a>
+        <a href="#/register">注册</a> -->
+        <!-- router-link渲染的最终的标签也是 a 标签，
+        我们可以通过 router-link中的 tag属性来修改 渲染的标签类型 -->
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register" >注册</router-link>
+        <!-- router-view标签是 vue-router 提供的元素，专门用来当作占位符的，
+        将来，路由规则，匹配到的组件，就会展示到这个router-view中去。
+        所以：我们可以把router-view认为是一个占位符 -->
+        <transition model="out-in">
+            <router-view></router-view>
+        </transition>
+        
+    </div>
+
+    <script>
+        //创建两个子组件 模板对象
+        var login = {
+            template:"<h3>登录模块</h3>"
+        }
+
+        var register = {
+            template:"<h3>注册模块</h3>"
+        }
+
+        //创建一个路由对象，当导入vue-router包之后，在window全局对象中
+        //就有了一个路由的构造函数叫做VueRouter
+        var routerObj = new VueRouter({
+            //配置路由规则
+            routes:[
+                {path:"/",redirect:"login"},
+                {path:"/login",component:login},
+                {path:"/register",component:register}
+            ],
+            // 在VueRouter实例中有个属性叫 linkActiveClass 
+            // 可以设置我们特定的 class 值
+            linkActiveClass:'myclass'
+        })
+        var vm = new Vue({
+            el: "#app",
+            data: {},
+            methods: {},
+            //将路由规则对象，注册到vm实例上，用来监听URL地址的变化
+            //然后展示对应的组件
+            router:routerObj
+        })
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,57 @@
+<!-- 
+1.ref
+   ref 被用来给元素或子组件注册引用信息，引用信息将会注册在父组件的$refs对象上，
+   如果是在普通的DOM元素上使用，引用指向的就是DOM元素，如果是在子组件上，引用就指向组件的实例
+2.$refs
+   $refs是一个对象，持有已注册过ref的所有的子组件 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="获取h3的值" @click="getElement">
+        <h3 ref="myh3">我是一个h3</h3>
+        <hr>
+        <login ref='mylogin'></login>
+    </div>
+
+    <script>
+        var login={
+            template:"<h3>我是一个login组件</h3>",
+            data(){
+                return {
+                    msg:"ok"
+                }
+            },
+            methods: {
+                show(){
+                    console.log("show()方法被调用了")
+                }
+            }
+        }
+        var vm = new Vue({
+            el: "#app",
+            data: {},
+            methods: {
+                getElement(){
+                    //通过getElementById方法获取DOM对象
+                    //innerHTML 属性设置或返回表格行的开始和结束标签之间的 HTML
+                    //console.log(document.getElementById("myh3").innerHTML)
+                    //console.log(this.$refs.myh3.innerHTML)
+                    console.log(this.$refs.mylogin.msg)
+                    this.$refs.mylogin.show()
+                }
+            },
+            components:{
+                login
+            }
+        })
+    </script>
+</body>
+</html>

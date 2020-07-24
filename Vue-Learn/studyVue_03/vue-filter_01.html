@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <script src="../Util/vue/dist/vue.js"></script>
+        <link rel="stylesheet" href="../Util/bootstrap-3.3.7-dist/css/bootstrap.css" />
+    </head>
+    <body>
+        <div id="app">
+             <p>{{msg}}</p>
+             <!-- 通过管道符 使用 自定义的过滤器 -->
+             <p>{{msg | msgFormat('主场')|test}}</p>
+        </div>
+        <script>
+            //创建一个过滤器
+            Vue.filter("msgFormat",function(msg,msg1){
+                return msg.replace(/NBA/g,"雷霆"+msg1)
+            })
+            //再创建一个过滤器
+            Vue.filter("test",function(msg){
+                return msg.replace(/今日/g,"明日")
+            })
+            var vm=new Vue({
+                el:"#app",
+                data:{
+                    msg:"今日NBA，威少打爆保罗...更多精彩赛事请持续关注NBA"
+                },
+                methods: {
+                },
+            })
+        </script>
+    </body>
+</html>

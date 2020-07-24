@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hello vue</title>
+  <script src="../Util/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="../Util/bootstrap-3.3.7-dist/css/bootstrap.css">
+</head>
+
+<body>
+  <div id="app">
+
+    <cmt-box @func="loadComments"></cmt-box>
+
+    <ul class="list-group">
+        <!--循环取出列表数据-->
+        <li class="list-group-item" v-for="(item ,i) in list" :key="item.id">
+            <span class="badge">{{item.name}}</span>
+            {{item.content}}
+        </li>
+    </ul>
+  </div>
+
+  <template id="tmpl">
+    <div>
+
+      <div class="form-group">
+        <label>评论人：</label>
+        <input type="text" class="form-control" v-model="user">
+      </div>
+
+      <div class="form-group">
+        <label>评论内容：</label>
+        <textarea class="form-control" v-model="content"></textarea>
+      </div>
+
+      <div class="form-group">
+        <input type="button" value="发表评论" class="btn btn-primary" @click="postComment">
+      </div>
+
+    </div>
+  </template>
+
+  <script>
+
+    var commentBox = {
+      data() {
+        return {
+          user: '',
+          content: ''
+        }
+      },
+      template: '#tmpl',
+      methods: {
+        postComment() { // 发表评论的方法
+      
+          var comment = { id: Date.now(), user: this.user, content: this.content }
+
+          // 从 localStorage 中获取所有的评论
+          var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+          list.unshift(comment)
+          // 重新保存最新的 评论数据
+          localStorage.setItem('cmts', JSON.stringify(list))
+
+          this.user = this.content = ''
+
+          this.$emit('func')
+        }
+      }
+    }
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        list: [
+                        {id: Date.now(),name:"波波烤鸭1",content:"非常棒..."},
+                        {id: Date.now(),name:"波波烤鸭2",content:"非常棒..."},
+                        {id: Date.now(),name:"波波烤鸭3",content:"非常棒..."}
+                    ]
+      },
+      beforeCreate(){ // 注意：这里不能调用 loadComments 方法，因为在执行这个钩子函数的时候，data 和 methods 都还没有被初始化好
+
+      },
+      created(){
+        this.loadComments()
+      },
+      methods: {
+        loadComments() { // 从本地的 localStorage 中，加载评论列表
+          var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+          this.list = list
+        }
+      },
+      components: {
+        'cmt-box': commentBox
+      }
+    })
+  </script>
+</body>
+
+</html>
+

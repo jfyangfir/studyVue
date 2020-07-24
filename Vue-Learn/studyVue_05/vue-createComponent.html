@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello vue</title>
+    <script src="../Util/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-com></my-com>
+    </div>
+    <div id="app1">
+        <mycom2></mycom2>
+    </div>
+    <template id="com1">
+        <h3>新的一个Vue组件</h3>
+    </template>
+    <template id="com2">
+        <h3>这是一个私有的Vue组件</h3>
+    </template>
+    <script>
+         
+        Vue.component("myCom",{//全局组件
+            template:"#com1"
+        })
+
+        // // 1.使用 Vue.extend 来创建全局的Vue组件
+        // // 2.使用 Vue.component('组件的名称', 创建出来的组件模板对象)
+        // Vue.component("myCom",Vue.extend({
+        //     //    template: "<h3>这是个Vue组件</h3>"
+        //        template: "<div><h3>这是个Vue组件</h3><span>我是span</span></div>"
+        // }))
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+            },
+            methods: {   
+            }
+        })
+
+        var vm1 = new Vue({
+            el: "#app1",
+            data: {
+            },
+            methods: {   
+            },
+            components:{//定义私有的组件
+                mycom2:{
+                    template:"#com2"
+                }
+            }
+        })
+    </script>
+</body>
+</html>

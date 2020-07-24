@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello vue</title>
+    <!-- 引入js用<script>标签，引入css用<link>标签 -->
+    <script src="../Util/vue/dist/vue.js"></script>
+    <!-- rel是关联的意思，关联的是一个样式表(stylesheet)文档，它表示这个link在文档初始化时将被使用 -->
+    <link rel="stylesheet" href="../Util/bootstrap-3.3.7-dist/css/bootstrap.css">
+</head>
+<!-- *****************************局部过滤器实现时间格式化***************************** -->
+<body>
+    <div id="app">
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th style="text-align:center">cTime</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in list" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td style="text-align:center">{{item.ctime|dateFormat}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                list: [
+                    { id: 1, name: '奔驰', ctime: new Date() },
+                    { id: 2, name: '宝马', ctime: new Date() }
+                ]
+            },
+            methods: {},
+            filters:{//局部过滤器
+                dateFormat:function(msg){
+                    //将字符串转换为Date类型
+                    var mt=new Date(msg);
+                    //获取年份
+                    var y=mt.getFullYear();
+                    //获取月份
+                    var m=(mt.getMonth()+1).toString().padStart(2,"0");
+                    //获取天数
+                    var d=mt.getDate().toString().padStart(2,"0");
+                     //获取小时
+                    var h=mt.getHours().toString().padStart(2,"0");
+                    //获取分钟
+                    var mi=mt.getMinutes().toString().padStart(2,"0");
+                    //获取秒
+                    var s=mt.getSeconds().toString().padStart(2,"0");
+
+                    return y+"-"+m+"-"+d+" "+h+":"+mi+":"+s;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
